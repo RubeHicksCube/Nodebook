@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  modules   Module[] @relation("ownerModules")
+}
+
+model Module {
+  id           String           @id @default(cuid())
+  ownerId      String
+  owner        User             @relation(fields: [ownerId], references: [id])
+  name         String
+  category     String
+  description  String?
+  coverImage   String?          // URL or path to uploaded image
+  privacy      String           @default("private")
+  collaborators String[]        @default([])
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+  definitions  NodeDefinition[]
+  instances    NodeInstance[]
+}
+
+model NodeDefinition {
+  id         String   @id @default(cuid())
+  moduleId   String
+  module     Module   @relation(fields: [moduleId], references: [id])
+  name       String
+  fields     Json     // array of field definitions {name,type,required,formula?}
+  createdAt  DateTime @default(now())
+}
+
+model NodeInstance {
+  id           String   @id @default(cuid())
+  moduleId     String
+  module       Module   @relation(fields: [moduleId], references: [id])
+  definitionId String
+  data         Json     // values per field
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}

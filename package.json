@@ -1,0 +1,11 @@
+{
+  "name": "nodebook",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev:all": "docker compose up --build",
+    "down": "docker compose down -v",
+    "lint": "pnpm -w eslint .",
+    "format": "pnpm -w prettier --write ."
+  }
+}
