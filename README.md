@@ -42,4 +42,4 @@ Server API: http://localhost:4000
 
 Frontend: http://localhost:5173
 
-Adminer (DB GUI): http://localhost:8080
+Adminer (DB GUI): http://localhost:8080# Nodebook
