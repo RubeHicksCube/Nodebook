@@ -1,0 +1,41 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1764371116890,
+      "tag": "0000_flat_tyger_tiger",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1764486790138,
+      "tag": "0001_panoramic_lionheart",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1764530160260,
+      "tag": "0002_nostalgic_mentallo",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1764627921903,
+      "tag": "0003_fearless_apocalypse",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1764643529749,
+      "tag": "0004_loving_titanium_man",
+      "breakpoints": true
+    }
+  ]
+}

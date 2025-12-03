@@ -1,10 +1,9 @@
-import { Router } from 'express';
+import { Router } from "express";
 
 const router = Router();
 
-// stubbed example endpoint
-router.get('/', (_req, res) => {
-  res.json({ message: 'Explorer not implemented yet' });
+router.get("/", (_req, res) => {
+  res.json({ explorer: "Here would be explorer data" });
 });
 
 export default router;

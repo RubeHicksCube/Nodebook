@@ -1,18 +1,20 @@
-FROM node:20-alpine AS builder
+FROM node:20-alpine
+
+# Install pnpm
+RUN npm install -g pnpm
+
 WORKDIR /app
 
 # Copy package files
-COPY package.json package-lock.json* ./
+COPY package.json ./
 
-# Install deps (use ci if lockfile exists, fallback to install)
-RUN if [ -f package-lock.json ]; then npm ci; else npm install; fi
-
+# Copy source code
 COPY . .
-RUN npm run build
 
-FROM node:20-alpine
-WORKDIR /app
-RUN npm install -g serve
-COPY --from=builder /app/dist ./dist
-EXPOSE 3000
-CMD ["serve", "-s", "dist", "-l", "3000"]
+# Install dependencies
+RUN pnpm install
+
+EXPOSE 5173
+
+# Run Vite dev server with host flag to allow external access
+CMD ["pnpm", "run", "dev", "--", "--host", "0.0.0.0"]

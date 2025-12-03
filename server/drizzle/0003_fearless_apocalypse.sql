@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS "nodes_metadata_idx" ON "nodes" USING GIN ("metadata");

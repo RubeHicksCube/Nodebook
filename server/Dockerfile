@@ -1,21 +1,46 @@
 FROM node:20-alpine AS builder
+
+# Install pnpm
+RUN npm install -g pnpm
+
 WORKDIR /app
 
-# copy package.json + package-lock.json if you’re using npm
-COPY package.json package-lock.json* ./
+# Copy package files first
+COPY package.json ./
 
-# install dependencies
-RUN npm install
-
+# Copy source code
 COPY . .
 
-RUN npm run build
+# Install dependencies (including dev for build)
+RUN pnpm install
+
+# Build TypeScript
+RUN pnpm run build
 
 FROM node:20-alpine
+
+# Install pnpm
+RUN npm install -g pnpm
+
 WORKDIR /app
+
 ENV NODE_ENV=production
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/dist ./dist
+
+# Copy package files
 COPY package.json ./
+
+# Install production dependencies only
+RUN pnpm install --prod
+
+# Copy built application from builder
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/drizzle ./drizzle
+COPY --from=builder /app/drizzle.config.ts ./
+
+# Create uploads directory
+RUN mkdir -p /app/uploads
+
 EXPOSE 4000
-CMD ["node", "dist/index.js"]
+
+# Run migrations and start server
+CMD ["sh", "-c", "node dist/db/migrate.js && node dist/index.js"]
